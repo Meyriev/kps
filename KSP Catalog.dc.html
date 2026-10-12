@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0C10">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#0A0C10;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box}
+body{font-family:Onest,system-ui,sans-serif;color:#FFFFFF}
+a{color:#FFFFFF;text-decoration:none}a:hover{color:#FFFFFF}
+button{font-family:inherit;border:0;cursor:pointer;color:inherit;padding:0}
+input,textarea{font-family:inherit}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.4)}
+::-webkit-scrollbar{display:none}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+</style>
+</helmet>
+<div style="min-height:100vh;background:#0A0C10;color:#FFFFFF;font-family:Onest,system-ui,sans-serif">
+  <div data-screen-label="Catalog" style="max-width:480px;margin:0 auto;padding-bottom:calc(120px + env(safe-area-inset-bottom))">
+
+    <div style="display:flex;align-items:center;gap:12px;padding:calc(16px + env(safe-area-inset-top)) 16px 16px">
+      <img src="assets/ksp/logo.png" alt="KSP" style="width:52px;height:52px;flex-shrink:0;border-radius:9999px;display:block">
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+        <div style="font-weight:700;font-size:22px;line-height:26px;letter-spacing:-0.02em">Khalif Sport Pit</div>
+        <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.6)">Спортпит · витамины · БАДы · Сунжа</div>
+      </div>
+      <a href="{{ waChat }}" target="_blank" rel="noopener" aria-label="Написать в WhatsApp" style="width:48px;height:48px;flex-shrink:0;border-radius:9999px;background:#14171D;display:flex;align-items:center;justify-content:center" style-active="background:#262B35">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2.5a9.5 9.5 0 00-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1012 2.5z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path><path d="M8.6 7.4c.3-.4.6-.4.9-.4h.6c.2 0 .4.1.5.4l.8 1.9c.1.3 0 .5-.1.7l-.6.7c-.1.1-.1.3 0 .5.7 1.3 1.8 2.3 3.1 3 .2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.7-.1l1.8.9c.3.1.4.3.4.5 0 .9-.6 1.9-1.8 2-.9.1-2.4-.3-4.4-1.9s-3.1-3.8-3.3-4.6c-.3-1.2.1-2.2.6-2.7z" fill="#FFFFFF"></path></svg>
+      </a>
+    </div>
+
+    <div style="display:flex;gap:16px;overflow-x:auto;padding:4px 16px 20px;scrollbar-width:none">
+      <sc-for list="{{ stories }}" as="st" hint-placeholder-count="3">
+        <button onClick="{{ st.act }}" style="flex-shrink:0;width:80px;display:flex;flex-direction:column;align-items:center;gap:8px;background:transparent" style-active="transform:scale(0.95)">
+          <div style="width:76px;height:76px;border-radius:9999px;padding:3px;box-shadow:inset 0 0 0 2px #2F6BFF">
+            <div style="width:100%;height:100%;border-radius:9999px;background-color:#14171D;background-size:cover;background-position:center 50%;background-image:{{ st.bg }}"></div>
+          </div>
+          <div style="font-weight:600;font-size:12px;line-height:16px;text-align:center">{{ st.label }}</div>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="margin:0 16px;padding:18px 18px 18px 20px;border-radius:24px;background:#14171D;display:flex;align-items:center;gap:14px">
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px">
+        <div style="font-weight:700;font-size:18px;line-height:22px">Подбор от тренера</div>
+        <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.6);text-wrap:pretty">Масса, сушка или сила — подберём набор под&nbsp;вашу цель</div>
+      </div>
+      <a href="{{ waTrainer }}" target="_blank" rel="noopener" style="flex-shrink:0;height:44px;padding:0 18px;border-radius:9999px;background:#2F6BFF;display:flex;align-items:center;font-weight:600;font-size:15px;line-height:18px;color:#FFFFFF" style-hover="background:#2560F0;color:#FFFFFF" style-active="background:#1E52D6">Написать</a>
+    </div>
+
+    <div style="position:sticky;top:0;z-index:10;background:#0A0C10;margin-top:20px;box-shadow:{{ chipsShadow }}">
+      <div ref="{{ chipsRef }}" style="display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:none">
+        <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="5">
+          <button data-chip="{{ ch.id }}" onClick="{{ ch.pick }}" style="flex-shrink:0;height:44px;padding:0 18px;border-radius:9999px;background:{{ ch.bg }};color:{{ ch.fg }};font-weight:600;font-size:15px;line-height:20px;transition:background .2s,color .2s">{{ ch.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="2">
+      <div id="{{ s.domId }}" style="display:flex;flex-direction:column;gap:16px;padding:28px 16px 0">
+        <div style="font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.02em">{{ s.title }}</div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px">
+          <sc-for list="{{ s.items }}" as="c" hint-placeholder-count="4">
+            <div data-card="1" style="display:flex;flex-direction:column;gap:10px;min-width:0">
+              <div data-photo="1" onClick="{{ c.open }}" style="position:relative;aspect-ratio:4/5;border-radius:24px;background-color:#14171D;background-size:118% auto;background-repeat:no-repeat;background-image:{{ c.bg }};background-position:{{ c.pos }};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font-weight:700;font-size:18px;line-height:22px;color:rgba(255,255,255,0.4)">{{ c.ph }}
+                <sc-if value="{{ c.hasBadge }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;left:8px;top:8px;height:28px;padding:0 12px;border-radius:9999px;background:#2F6BFF;display:flex;align-items:center;font-weight:600;font-size:13px;line-height:16px;transform:rotate(-4deg)">{{ c.badge }}</div>
+                </sc-if>
+              </div>
+              <div onClick="{{ c.open }}" style="flex:1;display:flex;flex-direction:column;gap:3px;padding:0 4px;cursor:pointer">
+                <div style="font-weight:600;font-size:12px;line-height:16px;letter-spacing:0.04em;text-transform:uppercase;color:#7FA4FF">{{ c.brand }}</div>
+                <div style="font-weight:500;font-size:16px;line-height:20px;letter-spacing:-0.01em;text-wrap:balance">{{ c.name }}</div>
+                <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.6)">{{ c.meta }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;padding:0 4px">
+                <sc-if value="{{ c.notInCart }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ c.add }}" style="height:44px;padding:0 16px 0 12px;border-radius:9999px;background:#1C2028;display:flex;align-items:center;gap:6px;font-weight:600;font-size:16px;line-height:20px;white-space:nowrap" style-hover="background:#262B35" style-active="background:#262B35;transform:scale(0.96)">
+                    <svg width="18" height="18" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M25.98 8.6c0-.6-.49-1.1-1.1-1.1h-1.76c-.61 0-1.1.5-1.1 1.1v11.22c0 1.21-.99 2.2-2.2 2.2H8.6c-.61 0-1.1.49-1.1 1.1v1.76c0 .61.49 1.1 1.1 1.1h11.22c1.21 0 2.2.99 2.2 2.2V39.4c0 .61.49 1.1 1.1 1.1h1.76c.61 0 1.1-.49 1.1-1.1V28.18c0-1.21.99-2.2 2.2-2.2H39.4c.61 0 1.1-.49 1.1-1.1v-1.76c0-.61-.49-1.1-1.1-1.1H28.18c-1.21 0-2.2-.99-2.2-2.2V8.6z" fill="#FFFFFF"></path></svg>{{ c.price }}
+                  </button>
+                </sc-if>
+                <sc-if value="{{ c.inCart }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:44px;border-radius:9999px;background:#2F6BFF;display:flex;align-items:center">
+                    <button onClick="{{ c.dec }}" aria-label="Убрать одну" style="width:44px;height:44px;border-radius:9999px;background:transparent;display:flex;align-items:center;justify-content:center" style-active="background:#1E52D6"><svg width="18" height="18" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M8.6 21.6c-.61 0-1.1.54-1.1 1.2v1.92c0 .66.49 1.2 1.1 1.2h30.8c.61 0 1.1-.54 1.1-1.2V22.8c0-.66-.49-1.2-1.1-1.2H8.6z" fill="#FFFFFF"></path></svg></button>
+                    <div style="min-width:22px;text-align:center;font-weight:700;font-size:16px;line-height:20px">{{ c.qty }}</div>
+                    <button onClick="{{ c.add }}" aria-label="Добавить ещё" style="width:44px;height:44px;border-radius:9999px;background:transparent;display:flex;align-items:center;justify-content:center" style-active="background:#1E52D6"><svg width="18" height="18" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M25.98 8.6c0-.6-.49-1.1-1.1-1.1h-1.76c-.61 0-1.1.5-1.1 1.1v11.22c0 1.21-.99 2.2-2.2 2.2H8.6c-.61 0-1.1.49-1.1 1.1v1.76c0 .61.49 1.1 1.1 1.1h11.22c1.21 0 2.2.99 2.2 2.2V39.4c0 .61.49 1.1 1.1 1.1h1.76c.61 0 1.1-.49 1.1-1.1V28.18c0-1.21.99-2.2 2.2-2.2H39.4c.61 0 1.1-.49 1.1-1.1v-1.76c0-.61-.49-1.1-1.1-1.1H28.18c-1.21 0-2.2-.99-2.2-2.2V8.6z" fill="#FFFFFF"></path></svg></button>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ c.hasOld }}" hint-placeholder-val="{{ false }}">
+                  <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.45);text-decoration:line-through;white-space:nowrap">{{ c.old }}</div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+
+    <div style="display:flex;flex-direction:column;gap:6px;margin:36px 16px 0;padding:18px;border-radius:24px;background:#14171D">
+      <div style="font-weight:700;font-size:18px;line-height:22px">KSP · Khalif Sport Pit</div>
+      <div style="font-size:15px;line-height:20px;color:rgba(255,255,255,0.6)">Сунжа · доставка по&nbsp;России</div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding-top:10px">
+        <a href="{{ waChat }}" target="_blank" rel="noopener" style="height:52px;border-radius:9999px;background:#1C2028;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;line-height:20px" style-active="background:#262B35">WhatsApp</a>
+        <a href="https://instagram.com/khalif_sport_pit" target="_blank" rel="noopener" style="height:52px;border-radius:9999px;background:#1C2028;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:16px;line-height:20px" style-active="background:#262B35">Instagram</a>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ showCartBar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;padding:0 16px calc(16px + env(safe-area-inset-bottom));pointer-events:none;animation:fadeIn .2s ease">
+      <button ref="{{ barRef }}" onClick="{{ openCart }}" style="pointer-events:auto;width:100%;max-width:448px;height:60px;border-radius:32px;background:#2F6BFF;color:#FFFFFF;display:flex;align-items:center;gap:12px;padding:0 22px 0 10px;box-shadow:0 8px 24px rgba(47,107,255,0.35)" style-hover="background:#2560F0" style-active="background:#1E52D6;transform:scale(0.98)">
+        <div data-badge="1" style="min-width:40px;height:40px;padding:0 10px;border-radius:9999px;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;line-height:20px">{{ count }}</div>
+        <div style="flex:1;text-align:left;font-weight:600;font-size:18px;line-height:22px">Корзина</div>
+        <div style="font-weight:700;font-size:18px;line-height:22px;white-space:nowrap">{{ totalLabel }}</div>
+      </button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ close }}" style="position:fixed;inset:0;z-index:40;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:flex-end;animation:fadeIn .2s ease">
+      <div data-sheet="1" ref="{{ sheetRef }}" onClick="{{ stop }}" style="position:relative;width:100%;max-width:480px;max-height:94vh;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y;background:#14171D;border-radius:32px 32px 0 0;animation:sheetUp .3s cubic-bezier(.2,.8,.2,1)">
+        <div style="position:sticky;top:0;z-index:3;height:0;overflow:visible;pointer-events:none">
+          <div style="width:36px;height:4px;margin:6px auto 0;border-radius:12px;background:rgba(255,255,255,0.25)"></div>
+          <button onClick="{{ close }}" aria-label="Закрыть" style="position:absolute;right:12px;top:12px;width:44px;height:44px;border-radius:9999px;background:rgba(28,32,40,0.92);display:flex;align-items:center;justify-content:center;pointer-events:auto" style-active="background:#262B35">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"><line x1="3.5" y1="3.5" x2="12.5" y2="12.5"></line><line x1="12.5" y1="3.5" x2="3.5" y2="12.5"></line></svg>
+          </button>
+        </div>
+
+        <sc-if value="{{ isItem }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Product" style="display:flex;flex-direction:column;min-height:calc(94vh - 2px)">
+            <div style="padding:20px 16px 0">
+              <div ref="{{ sheetPhotoRef }}" style="width:100%;aspect-ratio:4/5;max-height:52vh;border-radius:28px;background-color:#1C2028;background-size:118% auto;background-repeat:no-repeat;background-image:{{ si.bg }};background-position:{{ si.pos }}"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;padding:20px 16px 0">
+              <div style="font-weight:600;font-size:13px;line-height:16px;letter-spacing:0.04em;text-transform:uppercase;color:#7FA4FF">{{ si.brand }}</div>
+              <div style="font-weight:700;font-size:28px;line-height:32px;letter-spacing:-0.02em;text-wrap:balance">{{ si.name }}</div>
+              <div style="max-width:36ch;font-size:16px;line-height:22px;color:rgba(255,255,255,0.75);text-wrap:pretty">{{ si.desc }}</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;padding:16px 16px 0">
+              <sc-for list="{{ si.facts }}" as="f" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:16px;background:#1C2028">
+                  <div style="font-weight:700;font-size:17px;line-height:22px">{{ f.v }}</div>
+                  <div style="font-size:13px;line-height:16px;color:rgba(255,255,255,0.6)">{{ f.k }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ si.hasFlavors }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:10px;padding:24px 16px 0">
+                <div style="font-weight:700;font-size:20px;line-height:24px">Вкус</div>
+                <div style="display:flex;padding:3px;border-radius:9999px;background:#0A0C10">
+                  <sc-for list="{{ si.flavors }}" as="o" hint-placeholder-count="3">
+                    <button onClick="{{ o.pick }}" style="flex:1;height:48px;border-radius:9999px;background:{{ o.bg }};color:{{ o.fg }};font-weight:600;font-size:15px;line-height:20px;transition:background .2s">{{ o.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column;gap:12px;padding:28px 16px 0">
+              <div style="font-weight:700;font-size:20px;line-height:24px">Как принимать</div>
+              <div style="display:flex;flex-direction:column;border-radius:20px;background:#1C2028;padding:0 16px">
+                <sc-for list="{{ si.use }}" as="u" hint-placeholder-count="3">
+                  <div style="display:flex;flex-direction:column;gap:2px;padding:14px 0;border-bottom:{{ u.line }}">
+                    <div style="font-size:13px;line-height:16px;color:rgba(255,255,255,0.6)">{{ u.k }}</div>
+                    <div style="font-size:16px;line-height:22px;text-wrap:pretty">{{ u.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ si.hasRecs }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:12px;padding:28px 16px 0">
+                <div style="font-weight:700;font-size:20px;line-height:24px">С этим берут</div>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                  <sc-for list="{{ si.recs }}" as="x" hint-placeholder-count="3">
+                    <button onClick="{{ x.toggle }}" style="position:relative;display:flex;flex-direction:column;gap:8px;padding:6px 6px 12px;border-radius:20px;background:#1C2028;box-shadow:{{ x.ring }};text-align:left;transition:box-shadow .2s">
+                      <div style="width:100%;aspect-ratio:1/1;border-radius:14px;background-color:#262B35;background-size:cover;background-image:{{ x.bg }};background-position:{{ x.pos }};display:flex;align-items:center;justify-content:center;padding:8px;font-weight:700;font-size:13px;line-height:16px;text-align:center;color:rgba(255,255,255,0.55)">{{ x.ph }}</div>
+                      <div style="flex:1;padding:0 4px;font-weight:500;font-size:13px;line-height:16px;text-wrap:balance">{{ x.name }}</div>
+                      <div style="padding:0 4px;font-weight:600;font-size:14px;line-height:18px">{{ x.price }}</div>
+                      <sc-if value="{{ x.on }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:9999px;background:#2F6BFF;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5l2.5 2.5L11 4.5"></path></svg></div>
+                      </sc-if>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+
+            <div style="display:flex;flex-direction:column;gap:8px;padding:28px 16px 0">
+              <button onClick="{{ si.toggleContra }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 16px;border-radius:20px;background:#1C2028;text-align:left">
+                <span style="font-weight:600;font-size:16px;line-height:20px">Противопоказания</span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ si.chev }};transition:transform .25s"><path d="M5 8l5 5 5-5"></path></svg>
+              </button>
+              <sc-if value="{{ si.contraOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:8px;padding:6px 16px 4px;animation:fadeIn .2s ease">
+                  <sc-for list="{{ si.contra }}" as="t" hint-placeholder-count="3">
+                    <div style="display:flex;gap:10px;font-size:15px;line-height:20px">
+                      <div style="width:6px;height:6px;margin-top:7px;flex-shrink:0;border-radius:9999px;background:#7FA4FF"></div>
+                      <div style="text-wrap:pretty">{{ t.v }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="padding:4px 4px 0;font-size:13px;line-height:18px;color:rgba(255,255,255,0.5);text-wrap:pretty">{{ si.note }}</div>
+            </div>
+
+            <div style="flex:1"></div>
+            <div style="position:sticky;bottom:0;display:flex;justify-content:center;background:linear-gradient(rgba(20,23,29,0),#14171D 20px);padding:28px 16px calc(16px + env(safe-area-inset-bottom))">
+              <button onClick="{{ si.add }}" style="width:100%;height:60px;border-radius:32px;background:#2F6BFF;color:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:18px;line-height:22px" style-hover="background:#2560F0" style-active="background:#1E52D6;transform:scale(0.98)">
+                {{ si.cta }}
+                <sc-if value="{{ si.hasOld }}" hint-placeholder-val="{{ false }}"><span style="font-weight:500;font-size:16px;color:rgba(255,255,255,0.65);text-decoration:line-through">{{ si.old }}</span></sc-if>
+              </button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Cart" style="display:flex;flex-direction:column;padding:24px 16px 0">
+            <div style="font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.02em;padding-right:56px">Ваш заказ</div>
+            <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:48px 16px calc(32px + env(safe-area-inset-bottom));text-align:center">
+                <div style="font-weight:700;font-size:20px;line-height:24px">Корзина пуста</div>
+                <div style="font-size:16px;line-height:22px;color:rgba(255,255,255,0.6)">Добавьте товары из&nbsp;каталога</div>
+                <button onClick="{{ close }}" style="margin-top:16px;height:56px;padding:0 28px;border-radius:32px;background:#2F6BFF;font-weight:600;font-size:17px;line-height:20px" style-active="background:#1E52D6">В каталог</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ cartFull }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column">
+                <sc-for list="{{ cartRows }}" as="r" hint-placeholder-count="2">
+                  <div style="display:flex;gap:14px;padding:16px 0;border-bottom:1px solid #262B35">
+                    <div style="width:72px;height:90px;flex-shrink:0;border-radius:16px;background-color:#1C2028;background-size:118% auto;background-image:{{ r.bg }};background-position:{{ r.pos }}"></div>
+                    <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                      <div style="font-weight:600;font-size:16px;line-height:20px;text-wrap:balance">{{ r.name }}</div>
+                      <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.6)">{{ r.sub }}</div>
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:8px">
+                        <div style="height:44px;border-radius:9999px;background:#1C2028;display:flex;align-items:center">
+                          <button onClick="{{ r.dec }}" aria-label="Убрать одну" style="width:44px;height:44px;border-radius:9999px;background:transparent;display:flex;align-items:center;justify-content:center" style-active="background:#262B35"><svg width="18" height="18" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M8.6 21.6c-.61 0-1.1.54-1.1 1.2v1.92c0 .66.49 1.2 1.1 1.2h30.8c.61 0 1.1-.54 1.1-1.2V22.8c0-.66-.49-1.2-1.1-1.2H8.6z" fill="#FFFFFF"></path></svg></button>
+                          <div style="min-width:22px;text-align:center;font-weight:700;font-size:16px;line-height:20px">{{ r.qty }}</div>
+                          <button onClick="{{ r.inc }}" aria-label="Добавить ещё" style="width:44px;height:44px;border-radius:9999px;background:transparent;display:flex;align-items:center;justify-content:center" style-active="background:#262B35"><svg width="18" height="18" viewBox="0 0 48 48"><path fill-rule="evenodd" d="M25.98 8.6c0-.6-.49-1.1-1.1-1.1h-1.76c-.61 0-1.1.5-1.1 1.1v11.22c0 1.21-.99 2.2-2.2 2.2H8.6c-.61 0-1.1.49-1.1 1.1v1.76c0 .61.49 1.1 1.1 1.1h11.22c1.21 0 2.2.99 2.2 2.2V39.4c0 .61.49 1.1 1.1 1.1h1.76c.61 0 1.1-.49 1.1-1.1V28.18c0-1.21.99-2.2 2.2-2.2H39.4c.61 0 1.1-.49 1.1-1.1v-1.76c0-.61-.49-1.1-1.1-1.1H28.18c-1.21 0-2.2-.99-2.2-2.2V8.6z" fill="#FFFFFF"></path></svg></button>
+                        </div>
+                        <div style="font-weight:700;font-size:17px;line-height:22px;white-space:nowrap">{{ r.price }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+
+                <div ref="{{ formRef }}" style="display:flex;flex-direction:column;gap:10px;padding-top:28px">
+                  <div style="font-weight:700;font-size:20px;line-height:24px">Как получить</div>
+                  <div style="display:flex;padding:3px;border-radius:9999px;background:#0A0C10">
+                    <sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+                      <button onClick="{{ m.pick }}" style="flex:1;height:48px;border-radius:9999px;background:{{ m.bg }};color:{{ m.fg }};font-weight:600;font-size:15px;line-height:20px;transition:background .2s">{{ m.label }}</button>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ isDelivery }}" hint-placeholder-val="{{ false }}">
+                    <input value="{{ city }}" onChange="{{ onCity }}" placeholder="Город и адрес" autocomplete="street-address" style="height:56px;border:0;outline:0;border-radius:16px;background:#1C2028;padding:0 16px;font-size:17px;line-height:22px;color:#FFFFFF;box-shadow:{{ cityRing }}">
+                    <sc-if value="{{ cityErr }}" hint-placeholder-val="{{ false }}"><div style="font-size:14px;line-height:18px;color:#FF6B6B">Укажите город и адрес</div></sc-if>
+                  </sc-if>
+                </div>
+
+                <div style="padding-top:16px">
+                  <textarea value="{{ comment }}" onChange="{{ onComment }}" rows="2" placeholder="Комментарий: цель, вопрос по вкусу…" style="width:100%;resize:none;border:0;outline:0;border-radius:16px;background:#1C2028;padding:14px 16px;font-size:17px;line-height:22px;color:#FFFFFF"></textarea>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;padding:16px;border-radius:20px;background:#1C2028">
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:16px;line-height:20px"><span style="color:rgba(255,255,255,0.6)">{{ countLabel }}</span><span style="white-space:nowrap">{{ totalLabel }}</span></div>
+                  <div style="display:flex;justify-content:space-between;gap:12px;font-size:16px;line-height:20px"><span style="color:rgba(255,255,255,0.6)">Получение</span><span>{{ modeLabel }}</span></div>
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:10px;border-top:1px solid #262B35"><span style="font-weight:700;font-size:18px;line-height:22px">Итого</span><span style="font-weight:700;font-size:22px;line-height:26px;white-space:nowrap">{{ totalLabel }}</span></div>
+                  <div style="font-size:14px;line-height:18px;color:rgba(255,255,255,0.6)">Оплату и&nbsp;доставку менеджер уточнит в&nbsp;чате</div>
+                </div>
+
+                <div style="position:sticky;bottom:0;display:flex;flex-direction:column;gap:8px;background:linear-gradient(rgba(20,23,29,0),#14171D 20px);margin:0 -16px;padding:28px 16px calc(16px + env(safe-area-inset-bottom))">
+                  <a href="{{ waHref }}" target="_blank" rel="noopener" onClick="{{ onSend }}" style="height:60px;border-radius:32px;background:#2F6BFF;color:#FFFFFF;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600;font-size:18px;line-height:22px" style-hover="background:#2560F0;color:#FFFFFF" style-active="background:#1E52D6;transform:scale(0.98)">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2.5a9.5 9.5 0 00-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1012 2.5z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"></path><path d="M8.6 7.4c.3-.4.6-.4.9-.4h.6c.2 0 .4.1.5.4l.8 1.9c.1.3 0 .5-.1.7l-.6.7c-.1.1-.1.3 0 .5.7 1.3 1.8 2.3 3.1 3 .2.1.4.1.5-.1l.7-.8c.2-.2.4-.2.7-.1l1.8.9c.3.1.4.3.4.5 0 .9-.6 1.9-1.8 2-.9.1-2.4-.3-4.4-1.9s-3.1-3.8-3.3-4.6c-.3-1.2.1-2.2.6-2.7z" fill="#FFFFFF"></path></svg>
+                    {{ sendLabel }}
+                  </a>
+                  <div style="font-size:13px;line-height:18px;color:rgba(255,255,255,0.6);text-align:center;text-wrap:balance">Откроется WhatsApp с&nbsp;готовым сообщением&nbsp;— останется нажать «Отправить»</div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSent }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="Sent" style="display:flex;flex-direction:column;gap:20px;padding:44px 16px calc(20px + env(safe-area-inset-bottom))">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+              <div style="width:84px;height:84px;border-radius:9999px;background:#2F6BFF;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px rgba(47,107,255,0.45);animation:pop .55s cubic-bezier(.34,1.56,.64,1)">
+                <svg width="40" height="40" viewBox="0 0 34 34" fill="none" stroke="#FFFFFF" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.5l5.5 5.5L25 12"></path></svg>
+              </div>
+              <div style="font-weight:700;font-size:26px;line-height:30px;letter-spacing:-0.02em;text-wrap:balance">Осталось нажать «Отправить» в&nbsp;WhatsApp</div>
+              <div style="max-width:34ch;font-size:15px;line-height:20px;color:rgba(255,255,255,0.6);text-wrap:balance">Менеджер подтвердит наличие, оплату и&nbsp;доставку в&nbsp;чате</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;border-radius:24px;background:#1C2028;padding:16px">
+              <sc-for list="{{ cartRows }}" as="r" hint-placeholder-count="2">
+                <div style="display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:8px;align-items:baseline">
+                  <div style="font-weight:600;font-size:15px;line-height:20px;color:#7FA4FF">{{ r.qty }}×</div>
+                  <div style="font-weight:500;font-size:15px;line-height:20px;text-wrap:balance">{{ r.name }}</div>
+                  <div style="font-weight:600;font-size:15px;line-height:20px;white-space:nowrap">{{ r.price }}</div>
+                </div>
+              </sc-for>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;border-top:1px solid #262B35"><span style="font-weight:600;font-size:17px;line-height:22px">Итого</span><span style="font-weight:700;font-size:22px;line-height:26px;white-space:nowrap">{{ totalLabel }}</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <a href="{{ waHref }}" target="_blank" rel="noopener" style="height:56px;border-radius:32px;background:#2F6BFF;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:17px;line-height:20px" style-hover="background:#2560F0;color:#FFFFFF" style-active="background:#1E52D6">Открыть WhatsApp ещё раз</a>
+              <button onClick="{{ finish }}" style="height:52px;border-radius:32px;background:#1C2028;font-weight:600;font-size:16px;line-height:20px" style-active="background:#262B35">Заказ отправлен — в&nbsp;каталог</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;79888175723&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Магазин&quot;}}">
+const IMG = 'assets/ksp/';
+const CATS = [['promo', 'Акции'], ['protein', 'Протеины'], ['gainer', 'Гейнеры'], ['set', 'Наборы'], ['extra', 'Добавки']];
+const FP = ['Шоколад', 'Ваниль', 'Банан'], FG = ['Шоколад', 'Банан'];
+const P = (id, cat, brand, name, meta, price, img, pos, desc, facts, x) => ({ id, cat, brand, name, meta, price, img, pos, desc, facts, ...(x || {}) });
+const ITEMS = [
+  P('anabolic-iso', 'protein', 'Kevin Levrone', 'Anabolic Iso Whey', '2 кг · изолят', 6490, 'anabolic-iso.png', 'center 100%', 'Изолят сывороточного белка с креатином и DAA — для роста мышц и восстановления', [['25 г', 'белка в порции'], ['3 г', 'креатина'], ['2 кг', 'вес']], { flavors: FP, badge: 'хит' }),
+  P('gold-whey', 'protein', 'Kevin Levrone', 'Gold Whey', '2 кг · 66 порций', 4990, 'gold-whey.png', 'center 100%', 'Сывороточный концентрат на каждый день: много белка и BCAA', [['23 г', 'белка в порции'], ['5,6 г', 'BCAA'], ['66', 'порций']], { flavors: FP, old: 5490 }),
+  P('tempro', 'protein', 'DY Nutrition', 'Tempro Whey Complex', '2,27 кг', 5490, 'tempro.png', 'center 100%', 'Комплекс из 4 видов белка, лабораторно протестирован. Вкус — банановое мороженое', [['4', 'вида белка'], ['2,27 кг', 'вес']]),
+  P('scitec-iso', 'protein', 'Scitec Nutrition', '100% Whey Isolate', '1,8 кг · 72 порции', 6990, 'scitec-iso.png', 'center 100%', 'Чистый изолят без сахара и глютена, с L-глутамином и L-аргинином', [['72', 'порции'], ['0 г', 'сахара'], ['1,8 кг', 'вес']], { flavors: FP }),
+  P('game-changer', 'gainer', 'DY Nutrition', 'Game Changer Mass', '3 кг · шоколад', 4490, 'game-changer.png', 'center 100%', 'Калорийный гейнер для быстрого набора массы', [['3 кг', 'вес']], { badge: 'хит' }),
+  P('mass-xxl', 'gainer', 'Trec Nutrition', 'Mass XXL', '4,8 кг', 5990, 'mass-xxl.png', 'center 100%', '18% белка и витаминный комплекс. Подходит для набора в межсезонье', [['53 г', 'белка в день'], ['208 г', 'углеводов'], ['18%', 'белка']], { flavors: FG }),
+  P('premium-mass', 'gainer', 'Biopharm', 'Premium Mass', '4,08 кг · с креатином', 4290, 'premium-mass.png', 'center 100%', 'Гейнер с креатином: калории, белок и быстрые углеводы', [['1471', 'ккал в порции'], ['18,6 г', 'белка'], ['313 г', 'углеводов']]),
+  P('ylp-mass', 'gainer', 'YLP', 'Mass Gainer', '5 кг · банан', 4590, 'ylp-mass.png', 'center 100%', 'Сывороточный белок, длинные углеводы, креатин, BCAA, глютамин и витамины', [['5 кг', 'вес']]),
+  P('set-mass', 'set', 'KSP', 'Набор на массу +10–15 кг', '9 позиций · подбор тренера', 24990, 'set-mass.png', 'center 22%', 'X-Pharm Gainer, X-Pharm Mens Vitamin, BioPharm Creatine 5000, BioPharm ACG Mix, MK-677, Rad-140, ResTest, Омега-3, Витамин D3', [['9', 'позиций'], ['+10–15 кг', 'цель']], { old: 28990, badge: '−4 000 ₽' }),
+  P('ibutamoren', 'extra', 'DopingPharm', 'Ibutamoren MK-677', '90 капсул', 3490, 'ibutamoren.png', 'center 40%', 'Комплекс для поддержки гормона роста', [['90', 'капсул']]),
+  P('recardin', 'extra', 'Epic Labs', 'Recardin SR9011', '60 капсул', 3290, 'recardin.png', 'center 45%', 'Для выносливости и сжигания жира', [['60', 'капсул']])
+];
+ITEMS.push(
+  P('creatine', 'extra', 'BioPharm', 'Creatine 5000', '300 г · моногидрат', 1490, null, 'center', 'Моногидрат креатина: сила и объём мышц', [['5 г', 'в порции'], ['60', 'порций']]),
+  P('omega', 'extra', 'KSP', 'Омега-3', '90 капсул', 990, null, 'center', 'Жирные кислоты для суставов, сердца и сосудов', [['90', 'капсул']]),
+  P('vitd', 'extra', 'KSP', 'Витамин D3', '60 капсул', 690, null, 'center', 'Поддержка иммунитета и костей', [['60', 'капсул']]),
+  P('shaker', 'extra', 'KSP', 'Шейкер 700 мл', 'с сеточкой', 490, null, 'center', 'Размешивает протеин без комочков', [['700 мл', 'объём']])
+);
+const BASE_CONTRA = ['Индивидуальная непереносимость компонентов', 'Беременность и грудное вскармливание', 'Младше 18 лет'];
+const USE = {
+  protein: { dose: '1 мерная ложка — 30 г', how: 'Размешайте в 250–300 мл воды или молока в шейкере', when: 'После тренировки и между приёмами пищи, 1–3 раза в день', contra: [...BASE_CONTRA, 'Непереносимость лактозы (для концентрата)', 'Заболевания почек'], recs: ['shaker', 'creatine', 'omega'] },
+  gainer: { dose: '2–3 мерные ложки — 100–150 г', how: 'Размешайте в 400–500 мл молока или воды', when: 'Утром и сразу после тренировки', contra: [...BASE_CONTRA, 'Сахарный диабет', 'Непереносимость лактозы'], recs: ['shaker', 'creatine', 'vitd'] },
+  set: { dose: 'По схеме для каждой позиции', how: 'Тренер распишет приём по дням после заказа', when: 'Курс 6–8 недель', contra: [...BASE_CONTRA, 'Заболевания сердца, печени, почек', 'Сахарный диабет'], recs: ['shaker', 'omega', 'vitd'] },
+  extra: { dose: 'По инструкции на упаковке', how: 'Запивайте водой', when: 'Во время еды', contra: BASE_CONTRA, recs: ['shaker', 'omega', 'vitd'] }
+};
+const OVR = {
+  creatine: { dose: '1 мерная ложка — 5 г', how: 'Размешайте в воде или соке', when: 'Каждый день, в любое время' },
+  ibutamoren: { dose: '1 капсула', when: 'Вечером, перед сном', contra: [...BASE_CONTRA, 'Сахарный диабет', 'Онкологические заболевания', 'Заболевания сердца'], recs: ['omega', 'vitd', 'creatine'] },
+  recardin: { dose: '1–2 капсулы', when: 'Утром или за 30–60 минут до тренировки', contra: [...BASE_CONTRA, 'Заболевания сердца и печени'], recs: ['omega', 'vitd', 'creatine'] },
+  shaker: { dose: '—', how: 'Мойте тёплой водой сразу после использования', when: '—', contra: [], recs: ['creatine', 'omega', 'vitd'] }
+};
+const useOf = it => ({ ...USE[it.cat], ...(OVR[it.id] || {}) });
+const STRONG = ['ibutamoren', 'recardin', 'set-mass'];
+const BY = Object.fromEntries(ITEMS.map(i => [i.id, i]));
+const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
+const bg = f => f ? 'url("' + IMG + f + '")' : 'none';
+const plural = n => n + ' ' + (n % 10 === 1 && n % 100 !== 11 ? 'товар' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'товара' : 'товаров');
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+class Component extends DCLogic {
+  state = { cart: load('ksp-cart', {}), sheet: null, fl: 0, cat: 'promo', mode: 'pickup', city: load('ksp-city', ''), comment: '', errs: false, stuck: false };
+  chipsRef = React.createRef(); barRef = React.createRef(); sheetRef = React.createRef(); sheetPhotoRef = React.createRef(); formRef = React.createRef();
+
+  componentDidMount() {
+    this.onScroll = () => {
+      const bar = this.chipsRef.current; const stuck = !!bar && bar.parentElement.getBoundingClientRect().top <= 0;
+      if (stuck !== this.state.stuck) this.setState({ stuck });
+      if (this.lock) return; let cur = CATS[0][0];
+      CATS.forEach(([id]) => { const el = document.getElementById('ksp-' + id); if (el && el.getBoundingClientRect().top < 90) cur = id; });
+      if (cur !== this.state.cat) { this.setState({ cat: cur }); this.centerChip(cur); }
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.offDrag = this.initDrag();
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this.onScroll); this.offDrag && this.offDrag(); document.body.style.overflow = ''; }
+
+  initDrag() {
+    let d = null; const EASE = 'cubic-bezier(.32,.72,0,1)'; const pt = e => e.touches ? e.touches[0] : e;
+    const start = e => { if (e.button > 0) return; const el = e.target.closest && e.target.closest('[data-sheet]'); if (!el || e.target.closest('input,textarea')) return;
+      const p = pt(e); d = { el, bd: el.parentElement, y0: p.clientY, x0: p.clientX, dy: 0, lastY: p.clientY, lastT: performance.now(), v: 0, active: false, dead: false, top: el.scrollTop <= 0, h: el.offsetHeight }; };
+    const move = e => { if (!d || d.dead) return; const p = pt(e), dy = p.clientY - d.y0, dx = p.clientX - d.x0;
+      if (!d.active) { if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) { d.dead = true; return; } if (dy < 6) { if (dy < -6) d.dead = true; return; } if (!d.top || d.el.scrollTop > 0) { d.dead = true; return; }
+        d.active = true; d.y0 = p.clientY; d.el.style.animation = 'none'; d.el.style.transition = 'none'; d.bd.style.transition = 'none'; d.el.style.overflowY = 'hidden'; }
+      if (e.cancelable) e.preventDefault(); const now = performance.now(); d.v = (p.clientY - d.lastY) / Math.max(1, now - d.lastT); d.lastY = p.clientY; d.lastT = now;
+      d.dy = Math.max(0, p.clientY - d.y0); d.el.style.transform = 'translateY(' + d.dy + 'px)'; d.bd.style.backgroundColor = 'rgba(0,0,0,' + (0.6 * (1 - Math.min(1, d.dy / d.h))).toFixed(3) + ')'; };
+    const end = () => { if (!d) return; const s = d; d = null; if (!s.active) return; s.el.style.overflowY = '';
+      s.el.addEventListener('click', ev => { ev.stopPropagation(); ev.preventDefault(); }, { capture: true, once: true });
+      const shut = s.dy > s.h * 0.25 || s.v > 0.5;
+      s.el.style.transition = 'transform ' + (shut ? 260 : 420) + 'ms ' + EASE; s.bd.style.transition = 'background-color 260ms ease';
+      if (shut) { s.el.style.transform = 'translateY(100%)'; s.bd.style.backgroundColor = 'rgba(0,0,0,0)'; setTimeout(() => this.close(), 240); }
+      else { s.el.style.transform = 'translateY(0)'; s.bd.style.backgroundColor = ''; setTimeout(() => { s.el.style.transition = ''; s.el.style.transform = ''; s.bd.style.transition = ''; }, 440); } };
+    const L = [['touchstart', start, { passive: true }], ['touchmove', move, { passive: false }], ['touchend', end], ['touchcancel', end], ['mousedown', start], ['mousemove', move], ['mouseup', end]];
+    L.forEach(([n, f, o]) => document.addEventListener(n, f, o));
+    return () => L.forEach(([n, f, o]) => document.removeEventListener(n, f, o));
+  }
+
+  centerChip(id) { const b = this.chipsRef.current; const c = b && b.querySelector('[data-chip="' + id + '"]'); if (c) b.scrollTo({ left: c.offsetLeft - b.clientWidth / 2 + c.offsetWidth / 2, behavior: 'smooth' }); }
+  go(id) { const el = document.getElementById('ksp-' + id); if (!el) return; this.lock = true; this.setState({ cat: id }); this.centerChip(id);
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: 'smooth' }); clearTimeout(this.lockT); this.lockT = setTimeout(() => { this.lock = false; }, 900); }
+  setCart(fn) { this.setState(s => { const cart = fn({ ...s.cart }); save('ksp-cart', cart); return { cart }; }); }
+  change(k, d) { this.setCart(c => { const q = (c[k] || 0) + d; if (q <= 0) delete c[k]; else c[k] = q; return c; }); }
+  qtyOf(id) { return Object.entries(this.state.cart).filter(([k]) => k.split('|')[0] === id).reduce((a, [, q]) => a + q, 0); }
+  open(sheet) { this.setState({ sheet, fl: 0, errs: false, extras: {}, contraOpen: false }); document.body.style.overflow = 'hidden'; }
+  close = () => { this.setState({ sheet: null, errs: false }); document.body.style.overflow = ''; };
+
+  bump() { const b = this.barRef.current; if (!b || !b.animate) return; b.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.04)' }, { transform: 'scale(1)' }], { duration: 320, easing: 'ease-out' });
+    const g = b.querySelector('[data-badge]'); if (g) g.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 360, easing: 'cubic-bezier(.34,1.56,.64,1)' }); }
+  fly(src, it, done) {
+    const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!src || reduce || !document.body.animate) { done(); setTimeout(() => this.bump(), 30); return; }
+    const r = src.getBoundingClientRect(); const n = document.createElement('div');
+    Object.assign(n.style, { position: 'fixed', left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px', borderRadius: '24px', zIndex: 60, pointerEvents: 'none',
+      backgroundImage: bg(it.img), backgroundSize: 'cover', backgroundPosition: it.pos, boxShadow: '0 16px 32px rgba(0,0,0,0.45)' });
+    document.body.appendChild(n);
+    const b = this.barRef.current; const t = b ? b.getBoundingClientRect() : { left: Math.max(16, (innerWidth - 448) / 2), top: innerHeight - 76 - 0, width: 60, height: 60 };
+    const tx = t.left + 30 - (r.left + r.width / 2), ty = t.top + 30 - (r.top + r.height / 2), k = 44 / r.width;
+    const a = n.animate([
+      { transform: 'translate(0,0) scale(1)', borderRadius: '24px' },
+      { offset: 0.35, transform: 'translate(' + tx * 0.3 + 'px,' + (ty * 0.3 - 70) + 'px) scale(' + (0.55 + k * 0.45) + ')', borderRadius: '40px' },
+      { transform: 'translate(' + tx + 'px,' + ty + 'px) scale(' + k + ')', borderRadius: '9999px', opacity: 0.85 }
+    ], { duration: 780, easing: 'cubic-bezier(.45,0,.25,1)', fill: 'forwards' });
+    a.onfinish = () => { n.remove(); done(); setTimeout(() => this.bump(), 20); };
+  }
+  card(it, sec) { const q = this.qtyOf(it.id);
+    return { ph: it.img ? '' : it.name, bg: bg(it.img), pos: it.pos, brand: it.brand, name: it.name, meta: it.meta, price: fmt(it.price), old: it.old ? fmt(it.old) : '', hasOld: !!it.old, badge: it.badge || '', hasBadge: !!it.badge,
+      qty: q, inCart: q > 0, notInCart: q === 0, open: () => this.open({ type: 'item', id: it.id }),
+      add: e => { e && e.stopPropagation(); const ph = q === 0 && e && e.currentTarget.closest('[data-card]'); const src = ph && ph.querySelector('[data-photo]');
+        if (src) this.fly(src, it, () => this.change(it.id + '|0', 1)); else { this.change(it.id + '|0', 1); setTimeout(() => this.bump(), 30); } },
+      dec: e => { e && e.stopPropagation(); const k = Object.keys(this.state.cart).filter(x => x.split('|')[0] === it.id).pop(); if (k) this.change(k, -1); } }; }
+
+  renderVals() {
+    const { cart, sheet, fl, cat, mode, city, comment, errs } = this.state;
+    const phone = String(this.props.whatsapp ?? '79888175723').replace(/\D/g, '');
+    const rows = Object.entries(cart).filter(([k]) => BY[k.split('|')[0]]).map(([k, q]) => { const [id, f] = k.split('|'); const it = BY[id]; return { k, it, f: +f, q }; });
+    const count = rows.reduce((a, r) => a + r.q, 0), total = rows.reduce((a, r) => a + r.it.price * r.q, 0);
+    const flName = r => r.it.flavors ? r.it.flavors[r.f] : '';
+    const del = mode === 'delivery', cityBad = del && city.trim().length < 2;
+    const lines = rows.map((r, i) => (i + 1) + '. ' + r.it.brand + ' ' + r.it.name + (flName(r) ? ' (' + flName(r).toLowerCase() + ')' : '') + ' × ' + r.q + ' — ' + fmt(r.it.price * r.q));
+    const msg = ['Здравствуйте! Заказ с сайта KSP', '', ...lines, '', 'Итого: ' + fmt(total), del ? 'Доставка: ' + city.trim() : 'Самовывоз'].concat(comment.trim() ? ['Комментарий: ' + comment.trim()] : []).join('\n');
+    const wa = t => 'https://wa.me/' + phone + (t ? '?text=' + encodeURIComponent(t) : '');
+    const it = sheet && sheet.type === 'item' ? BY[sheet.id] : null;
+    const ex = this.state.extras || {}; const exIds = Object.keys(ex); const exSum = exIds.reduce((a, id) => a + BY[id].price, 0);
+    const u = it ? useOf(it) : null;
+    const useRows = u ? [['Порция', u.dose], ['Как', u.how], ['Когда', u.when]].filter(([, v]) => v && v !== '—') : [];
+    const seg = on => ({ bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0A0C10' : '#FFFFFF' });
+    const sections = CATS.map(([id, title]) => ({ domId: 'ksp-' + id, title, items: (id === 'promo' ? ITEMS.filter(i => i.old) : ITEMS.filter(i => i.cat === id)).map(i => this.card(i, id)) }));
+    return {
+      waChat: wa('Здравствуйте! Пишу с сайта KSP'), waTrainer: wa('Здравствуйте! Хочу подбор от тренера. Моя цель: '),
+      stories: [{ label: 'Ассортимент', bg: bg('st-assort.png'), act: () => this.go('protein') }, { label: 'Акции', bg: bg('st-promo.png'), act: () => this.go('promo') }, { label: 'В наличии', bg: bg('st-stock.png'), act: () => this.go('gainer') }],
+      chipsRef: this.chipsRef, barRef: this.barRef, sheetRef: this.sheetRef, sheetPhotoRef: this.sheetPhotoRef, formRef: this.formRef,
+      chipsShadow: this.state.stuck ? '0 6px 16px rgba(0,0,0,0.5)' : 'none',
+      chips: CATS.map(([id, label]) => ({ id, label, bg: cat === id ? '#FFFFFF' : '#14171D', fg: cat === id ? '#0A0C10' : '#FFFFFF', pick: () => this.go(id) })),
+      sections, count, totalLabel: fmt(total), countLabel: plural(count),
+      showCartBar: count > 0 && !sheet, openCart: () => this.open({ type: 'cart' }),
+      sheetOpen: !!sheet, close: this.close, stop: e => e.stopPropagation(),
+      isItem: !!it,
+      si: it ? { bg: bg(it.img), pos: it.pos, brand: it.brand, name: it.name, desc: it.desc, facts: it.facts.map(([v, k]) => ({ v, k })), hasFlavors: !!it.flavors,
+        flavors: (it.flavors || []).map((f, i) => ({ label: f, ...seg(fl === i), pick: () => this.setState({ fl: i }) })),
+        cta: 'В корзину · ' + fmt(it.price + exSum), hasOld: !!it.old && !exSum, old: it.old ? fmt(it.old) : '',
+        use: useRows.map(([k, v], i) => ({ k, v, line: i < useRows.length - 1 ? '1px solid #262B35' : '0' })),
+        recs: (u.recs || []).filter(id => id !== it.id && BY[id]).slice(0, 3).map(id => { const x = BY[id], on = !!ex[id];
+          return { name: x.name, price: '+' + fmt(x.price), bg: bg(x.img), pos: x.pos, ph: x.img ? '' : x.name, on, ring: on ? 'inset 0 0 0 2px #2F6BFF' : 'none',
+            toggle: () => this.setState(s => { const e = { ...(s.extras || {}) }; if (e[id]) delete e[id]; else e[id] = 1; return { extras: e }; }) }; }),
+        hasRecs: (u.recs || []).length > 0,
+        contra: (u.contra || []).map(v => ({ v })), contraOpen: !!this.state.contraOpen, chev: this.state.contraOpen ? 'rotate(180deg)' : 'none',
+        toggleContra: () => this.setState(s => ({ contraOpen: !s.contraOpen })),
+        note: STRONG.includes(it.id) ? 'Не является лекарственным средством. Перед приёмом обязательно проконсультируйтесь с врачом' : 'Не является лекарственным средством. Перед приёмом проконсультируйтесь со специалистом',
+        add: () => { const src = this.sheetPhotoRef.current; const key = it.id + '|' + (it.flavors ? fl : 0); const r = src && src.getBoundingClientRect(); const clone = r && { getBoundingClientRect: () => r };
+          this.close(); setTimeout(() => this.fly(clone, it, () => { this.change(key, 1); exIds.forEach(id => this.change(id + '|0', 1)); }), 10); } }
+        : { bg: 'none', pos: 'center', brand: '', name: '', desc: '', facts: [], hasFlavors: false, flavors: [], cta: '', hasOld: false, old: '', add: () => {}, use: [], recs: [], hasRecs: false, contra: [], contraOpen: false, chev: 'none', toggleContra: () => {}, note: '' },
+      isCart: !!(sheet && sheet.type === 'cart'), cartEmpty: count === 0, cartFull: count > 0,
+      cartRows: rows.map(r => ({ bg: bg(r.it.img), pos: r.it.pos, name: r.it.name, sub: [r.it.brand, flName(r)].filter(Boolean).join(' · '), qty: r.q, price: fmt(r.it.price * r.q), inc: () => this.change(r.k, 1), dec: () => this.change(r.k, -1) })),
+      modes: [['pickup', 'Самовывоз'], ['delivery', 'Доставка']].map(([id, label]) => ({ label, ...seg(mode === id), pick: () => this.setState({ mode: id }) })),
+      isDelivery: del, modeLabel: del ? 'доставка' : 'самовывоз', city, onCity: e => { this.setState({ city: e.target.value }); save('ksp-city', e.target.value); },
+      cityRing: errs && cityBad ? 'inset 0 0 0 2px #FF6B6B' : 'none', cityErr: errs && cityBad,
+      comment, onComment: e => this.setState({ comment: e.target.value }),
+      waHref: wa(msg), sendLabel: 'Отправить в WhatsApp · ' + fmt(total),
+      onSend: e => { if (cityBad) { e.preventDefault(); this.setState({ errs: true }); const sc = this.sheetRef.current, f = this.formRef.current; if (sc && f) sc.scrollTo({ top: f.offsetTop - 16, behavior: 'smooth' }); return; }
+        setTimeout(() => { this.setState({ sheet: { type: 'sent' } }); const sc = this.sheetRef.current; if (sc) sc.scrollTop = 0; }, 200); },
+      isSent: !!(sheet && sheet.type === 'sent'),
+      finish: () => { this.setCart(() => ({})); this.setState({ comment: '' }); this.close(); window.scrollTo({ top: 0 }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
